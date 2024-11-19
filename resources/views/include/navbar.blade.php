@@ -19,9 +19,6 @@
                     <a class="dropdown-item" href="{{ route('dashboard.profile') }}"><i class="align-middle me-1"
                             data-feather="user"></i> Profile</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="index.html"><i class="align-middle me-1" data-feather="settings"></i>
-                        Settings & Privacy</a>
-                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('logout') }}"><i class="align-middle me-1"
                             data-feather="log-out"></i>Log out</a>
                 </div>

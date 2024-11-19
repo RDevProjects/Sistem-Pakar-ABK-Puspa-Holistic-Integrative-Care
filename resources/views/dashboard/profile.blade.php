@@ -3,22 +3,9 @@
 @push('styles-css')
 @endpush
 
-{{-- @section('title')
-    <div class="mb-4 d-flex justify-content-between align-items-center">
-        <div>
-            <h1 class="h3"><strong>Selamat Datang di {{ env('APP_NAME', 'Aplikasi Arkanza') }}</strong></h1>
-            <h3 class="h4">Sistem Prediksi yang Digunakan untuk Memprediksi Penjualan di Batik Arkanza</h3>
-        </div>
-        <div>
-            <h5 class="p-2 bg-white rounded-pill h5">
-                {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM YYYY') }}</h5>
-        </div>
-    </div>
-@endsection --}}
-
 @section('content')
     <div class="mb-3">
-        <h1 class="h3 d-inline align-middle">Profile</h1>
+        <h1 class="h3 d-inline align-middle">Profile Pengguna</h1>
         <a class="badge bg-dark text-white ms-2" href="{{ route('dashboard.profile') }}">
             {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM YYYY') }}
         </a>
@@ -37,9 +24,8 @@
                 <div class="text-muted mb-2">{{ Auth::user()->email }}</div>
 
                 <div>
-                    <a class="btn btn-primary btn-sm" href="#">Follow</a>
-                    <a class="btn btn-primary btn-sm" href="#"><span data-feather="message-square"></span>
-                        Message</a>
+                    <a class="btn btn-primary btn-sm"
+                        href="">{{ Auth::user()->role == 'admin' ? 'Role : Admin' : 'Role : User' }}</a>
                 </div>
             </div>
         </div>
