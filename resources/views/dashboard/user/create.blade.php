@@ -5,32 +5,13 @@
 
 @section('content')
     <div class="mb-3 d-flex justify-content-between align-items-center">
-        <h1 class="h3 d-inline align-middle">Profile Pengguna</h1>
+        <h1 class="h3 d-inline align-middle">Data Pengguna</h1>
         <h5 class="p-2 bg-white rounded-pill h5">
             {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM YYYY') }}</h5>
     </div>
 @endsection
 @section('content2')
-    <div class="col-md-4 col-xl-3">
-        <div class="card mb-3">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Profile Details</h5>
-            </div>
-            <div class="card-body text-center">
-                <img src="{{ asset(Auth::user()->photo_profile_path) }}" alt="Christina Mason"
-                    class="img-fluid rounded-circle mb-2" width="128" height="128" />
-                <h5 class="card-title mb-0">{{ Auth::user()->name }}</h5>
-                <div class="text-muted mb-2">{{ Auth::user()->email }}</div>
-
-                <div>
-                    <a class="btn btn-primary btn-sm"
-                        href="">{{ Auth::user()->role == 'admin' ? 'Role : Admin' : 'Role : User' }}</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-8 col-xl-9">
+    <div class="col-md-8 col-xl-12">
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title mb-0">Edit Profile</h5>

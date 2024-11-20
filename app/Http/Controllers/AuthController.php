@@ -57,7 +57,8 @@ class AuthController extends Controller
         $user->password = bcrypt($request->password);
         if ($request->hasFile('photo_profile')) {
             $file = $request->file('photo_profile');
-            $path = $file->storeAs('photo_profile', $file->getClientOriginalName(), 'public');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('photo_profile', $filename, 'public');
             $user->photo_profile_path = 'storage/' . $path;
         }
 
@@ -82,7 +83,8 @@ class AuthController extends Controller
                     \Storage::disk('public')->delete(str_replace('storage/', '', $user->photo_profile_path));
                 }
                 $file = $request->file('photo_profile');
-                $path = $file->storeAs('photo_profile', $file->getClientOriginalName(), 'public');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('photo_profile', $filename, 'public');
                 $user->photo_profile_path = 'storage/' . $path;
             }
 

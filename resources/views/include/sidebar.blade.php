@@ -15,9 +15,9 @@
                 </a>
             </li>
 
-            <li class="sidebar-item {{ Request::routeIs('dashboard.profile') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('dashboard.profile') }}">
-                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
+            <li class="sidebar-item {{ Request::routeIs('user.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('user.index') }}">
+                    <i class="align-middle" data-feather="users"></i> <span class="align-middle">Data Admin</span>
                 </a>
             </li>
 
