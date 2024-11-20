@@ -69,11 +69,6 @@
                                             <input class="form-control form-control-lg" type="password" name="password"
                                                 placeholder="Enter password" />
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Profile Photo</label>
-                                            <input class="form-control form-control-lg" type="file"
-                                                name="photo_profile" />
-                                        </div>
                                         <div class="d-grid gap-2 mt-3">
                                             <button type="submit" class="btn btn-lg btn-primary">Sign up</button>
                                         </div>
