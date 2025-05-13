@@ -28,10 +28,10 @@
                 </a>
             </li>
 
-            <li class="sidebar-item {{ Request::routeIs('user.index') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('user.index') }}">
-                    <i class="align-middle" data-feather="book"></i> <span class="align-middle">Data
-                        Penyakit</span>
+            <li class="sidebar-item {{ Request::routeIs('jenis-abk.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('jenis-abk.index') }}">
+                    <i class="align-middle" data-feather="book"></i> <span class="align-middle">Penyakit & Kondisi
+                        ABK</span>
                 </a>
             </li>
 

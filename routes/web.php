@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GejalaController;
+use App\Http\Controllers\JenisAbkController;
 use App\Http\Middleware\AuthAndRoleMiddleware;
 
 Route::middleware([AuthAndRoleMiddleware::class])->group(function () {});
@@ -34,6 +35,15 @@ Route::prefix('/dashboard')->middleware('auth.role:admin')->group(function () {
         Route::get('/edit/{id}', [GejalaController::class, 'edit'])->name('gejala.edit');
         Route::put('/update/{id}', [GejalaController::class, 'update'])->name('gejala.update');
         Route::delete('/destroy/{id}', [GejalaController::class, 'destroy'])->name('gejala.destroy');
+    });
+
+    Route::prefix('/jenis-abk')->group(function () {
+        Route::get('/', [JenisAbkController::class, 'index'])->name('jenis-abk.index');
+        Route::post('/store', [JenisAbkController::class, 'store'])->name('jenis-abk.store');
+        Route::get('/show/{id}', [JenisAbkController::class, 'show'])->name('jenis-abk.show');
+        Route::get('/edit/{id}', [JenisAbkController::class, 'edit'])->name('jenis-abk.edit');
+        Route::put('/update/{id}', [JenisAbkController::class, 'update'])->name('jenis-abk.update');
+        Route::delete('/destroy/{id}', [JenisAbkController::class, 'destroy'])->name('jenis-abk.destroy');
     });
 });
 

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('kondisi_users', function (Blueprint $table) {
             $table->id();
-            $table->string('kondisi');  // Contoh: "Ya", "Tidak Yakin", "Tidak"
-            $table->float('nilai');     // Contoh: 1.0, 0.6, 0.0
+            $table->string('kondisi');  // Contoh: "Tidak Tahu", "Tidak Yakin", "Mungkin", "Kemungkinan Besar", "Hampir Pasti", "Pasti"
+            $table->float('nilai');     // Contoh: 0.0, 0.2, 0.4, 0.6, 0.8, 1.0
             $table->timestamps();
         });
     }
