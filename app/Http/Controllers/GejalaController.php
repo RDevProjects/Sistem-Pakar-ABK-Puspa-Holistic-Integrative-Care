@@ -12,7 +12,9 @@ class GejalaController extends Controller
      */
     public function index()
     {
-        //
+        $dataGejala = Gejala::select('id', 'kode_gejala', 'nama_gejala')->get();
+        // return response()->json($dataGejala);
+        return view('dashboard.gejala.index', compact('dataGejala'));
     }
 
     /**
@@ -28,15 +30,23 @@ class GejalaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode_gejala' => 'required|unique:gejala_abk,kode_gejala',
+            'nama_gejala' => 'required',
+        ]);
+
+        Gejala::create($request->all());
+
+        return redirect()->route('gejala.index')->with('success', 'Data gejala berhasil ditambahkan.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Gejala $gejala)
+    public function show($id)
     {
-        //
+        $gejala = Gejala::findOrFail($id);
+        return response()->json($gejala);
     }
 
     /**
@@ -50,16 +60,27 @@ class GejalaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Gejala $gejala)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'kode_gejala' => 'required|unique:gejala_abk,kode_gejala,' . $id,
+            'nama_gejala' => 'required',
+        ]);
+
+        $gejala = Gejala::findOrFail($id);
+        $gejala->update($request->all());
+
+        return redirect()->route('gejala.index')->with('success', 'Data gejala berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Gejala $gejala)
+    public function destroy($id)
     {
-        //
+        $gejala = Gejala::findOrFail($id);
+        $gejala->delete();
+
+        return redirect()->route('gejala.index')->with('success', 'Data gejala berhasil dihapus.');
     }
 }

@@ -241,7 +241,7 @@
 
                 var modal = $(this);
                 modal.find('#deleteUserId').val(userId);
-                modal.find('#deleteUserForm').attr('action', '{{ route('user.destroy', '') }}/' +
+                $('#editUserForm').attr('action', '/dashboard/user/destroy/' +
                     userId);
             });
         });

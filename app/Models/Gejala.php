@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Gejala extends Model
 {
     use HasFactory;
-    protected $table = 'gejala';
+    protected $table = 'gejala_abk';
     protected $guard = ["id"];
     protected $fillable = ["kode_gejala", "nama_gejala"];
 

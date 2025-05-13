@@ -21,8 +21,8 @@
                 </a>
             </li>
 
-            <li class="sidebar-item {{ Request::routeIs('user.index') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('user.index') }}">
+            <li class="sidebar-item {{ Request::routeIs('gejala.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('gejala.index') }}">
                     <i class="align-middle" data-feather="book"></i> <span class="align-middle">Data
                         Gejala</span>
                 </a>
