@@ -3,10 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DiagnosaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GejalaController;
 use App\Http\Controllers\JenisAbkController;
 use App\Http\Middleware\AuthAndRoleMiddleware;
+use App\Models\KondisiUser;
+use App\Models\Gejala;
 
 Route::middleware([AuthAndRoleMiddleware::class])->group(function () {});
 
@@ -45,6 +48,18 @@ Route::prefix('/dashboard')->middleware('auth.role:admin')->group(function () {
         Route::put('/update/{id}', [JenisAbkController::class, 'update'])->name('jenis-abk.update');
         Route::delete('/destroy/{id}', [JenisAbkController::class, 'destroy'])->name('jenis-abk.destroy');
     });
+
+    Route::get('/form', function () {
+        $data = [
+            'gejala' => Gejala::all(),
+            'kondisi_user' => KondisiUser::all()
+        ];
+        return view('dashboard.form.index', $data);
+    });
+
+    // Route::post('/spk', [DiagnosaController::class, 'store'])->name('spk.store');
+    Route::resource('/spk', DiagnosaController::class);
+    Route::get('/spk/result/{diagnosa_id}', [DiagnosaController::class, 'diagnosaResult'])->name('spk.result');
 });
 
 Route::prefix('/auth')->group(function () {
