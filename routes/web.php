@@ -6,11 +6,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AuthAndRoleMiddleware;
 
-Route::middleware([AuthAndRoleMiddleware::class])->group(function () {
-    
-});
+Route::middleware([AuthAndRoleMiddleware::class])->group(function () {});
 
-Route::prefix('/dashboard')->group(function () {
+Route::get('/', function () {
+    return redirect()->route('dashboard.index');
+})->name('home');
+
+Route::prefix('/dashboard')->middleware('auth.role:admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
     Route::put('/profile/update', [AuthController::class, 'updateProfile'])->name('profile.update');
