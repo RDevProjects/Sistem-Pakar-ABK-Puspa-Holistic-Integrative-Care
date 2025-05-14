@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         Auth::logout();
         return view('auth.login');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $credentials = $request->only('username', 'password');
 
         if (Auth::attempt($credentials)) {
@@ -27,17 +29,20 @@ class AuthController extends Controller
         return redirect()->route('login.index')->with('error', 'Data tidak ada di database');
     }
 
-    public function logout(){
+    public function logout()
+    {
         Auth::logout();
 
         return redirect()->route('login.index')->with('success', 'Berhasil Keluar');
     }
 
-    public function register(){
+    public function register()
+    {
         return view('auth.register');
     }
 
-    public function storeRegister(Request $request){
+    public function storeRegister(Request $request)
+    {
         $request->validate([
             'name' => 'required',
             'username' => 'required',
@@ -46,7 +51,7 @@ class AuthController extends Controller
             'photo_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
-        if(User::where('username', $request->username)->exists()){
+        if (User::where('username', $request->username)->exists()) {
             return redirect()->route('register')->with('error', 'Username sudah ada');
         }
 
@@ -67,7 +72,8 @@ class AuthController extends Controller
         return redirect()->route('login.index')->with('success', 'Berhasil mendaftar');
     }
 
-    public function updateProfile(Request $request){
+    public function updateProfile(Request $request)
+    {
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',

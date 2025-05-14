@@ -14,7 +14,7 @@ use App\Models\Gejala;
 Route::middleware([AuthAndRoleMiddleware::class])->group(function () {});
 
 Route::get('/', function () {
-    return redirect()->route('dashboard.index');
+    return view('index');
 })->name('home');
 
 Route::prefix('/dashboard')->middleware('auth.role:admin')->group(function () {
@@ -55,10 +55,12 @@ Route::prefix('/dashboard')->middleware('auth.role:admin')->group(function () {
             'kondisi_user' => KondisiUser::all()
         ];
         return view('dashboard.form.index', $data);
-    });
+    })->name('form');
 
     Route::resource('/spk', DiagnosaController::class);
     Route::get('/spk/result/{diagnosa_id}', [DiagnosaController::class, 'diagnosaResult'])->name('spk.result');
+
+    Route::get('/diagnosis', [DiagnosaController::class, 'index'])->name('diagnosis.index');
 });
 
 Route::prefix('/auth')->group(function () {

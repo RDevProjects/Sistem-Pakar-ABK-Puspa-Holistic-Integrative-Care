@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Diagnosa;
 use App\Models\JenisAbk;
 use App\Models\Keputusan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class DiagnosaController extends Controller
@@ -14,7 +15,9 @@ class DiagnosaController extends Controller
      */
     public function index()
     {
-        //
+        $dataDiagnosis = Diagnosa::all();
+
+        return view('dashboard.diagnosis.index', compact('dataDiagnosis'));
     }
 
     /**
@@ -73,7 +76,8 @@ class DiagnosaController extends Controller
         $ins = Diagnosa::create([
             'diagnosa_id' => $diagnosa_id,
             'data_diagnosa' => json_encode($arrGejala),
-            'kondisi' => json_encode($bobotPilihan)
+            'kondisi' => json_encode($bobotPilihan),
+            'user_id' => Auth::id()
         ]);
 
         return redirect()->route('spk.result', ["diagnosa_id" => $diagnosa_id]);

@@ -35,10 +35,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <h1 class="mt-1 mb-3">{{-- {{ $users }} --}}</h1>
+                            <h1 class="mt-1 mb-3">{{ $users }}</h1>
                             <div class="mb-0">
                                 <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i>
-                                    {{-- {{ $users }} --}}</span>
+                                    {{ $users }}</span>
                                 <span class="text-muted">Data yang ada didatabase</span>
                             </div>
                         </div>
@@ -56,10 +56,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <h1 class="mt-1 mb-3">{{-- {{ $gejala }} --}}</h1>
+                            <h1 class="mt-1 mb-3">{{ $gejala }}</h1>
                             <div class="mb-0">
                                 <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i>
-                                    {{-- {{ $gejala }} --}}</span>
+                                    {{ $gejala }}</span>
                                 <span class="text-muted">Data yang ada didatabase</span>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="mt-0 col">
-                                    <h5 class="card-title">Data Penyakit</h5>
+                                    <h5 class="card-title">Data Penyakit & Kondisi ABK</h5>
                                 </div>
 
                                 <div class="col-auto">
@@ -79,9 +79,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <h1 class="mt-1 mb-3">{{-- {{ $penyakit }} --}}</h1>
+                            <h1 class="mt-1 mb-3">{{ $jenis_abk }}</h1>
                             <div class="mb-0">
-                                <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> {{-- {{ $penyakit }} --}}
+                                <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> {{ $jenis_abk }}
                                 </span>
                                 <span class="text-muted">Data yang ada didatabase</span>
                             </div>
@@ -100,9 +100,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <h1 class="mt-1 mb-3">{{-- {{ $diagnosis }} --}}</h1>
+                            <h1 class="mt-1 mb-3">{{ $diagnosa }}</h1>
                             <div class="mb-0">
-                                <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> {{-- {{ $diagnosis }} --}}
+                                <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> {{ $diagnosa }}
                                 </span>
                                 <span class="text-muted">Data yang ada didatabase</span>
                             </div>
@@ -115,79 +115,48 @@
 @endsection
 
 @section('content3')
-    <div class="col-12 col-lg-12 col-xxl-9 d-flex">
+    <div class="col-12 col-lg-12 col-xxl-12 d-flex">
         <div class="card flex-fill">
             <div class="card-header">
 
-                <h5 class="mb-0 card-title">Latest Projects</h5>
+                <h5 class="mb-0 card-title">Data Diagnosa</h5>
             </div>
             <table class="table my-0 table-hover">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th class="d-none d-xl-table-cell">Start Date</th>
-                        <th class="d-none d-xl-table-cell">End Date</th>
-                        <th>Status</th>
-                        <th class="d-none d-md-table-cell">Assignee</th>
+                        <th>No</th>
+                        <th class="d-none d-xl-table-cell">Diagnosa ID</th>
+                        <th class="d-none d-xl-table-cell">Tingkat Depresi</th>
+                        <th class="d-none d-xl-table-cell">Persentase</th>
+                        <th class="d-none d-xl-table-cell">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Project Apollo</td>
-                        <td class="d-none d-xl-table-cell">01/01/2023</td>
-                        <td class="d-none d-xl-table-cell">31/06/2023</td>
-                        <td><span class="badge bg-success">Done</span></td>
-                        <td class="d-none d-md-table-cell">Vanessa Tucker</td>
-                    </tr>
-                    <tr>
-                        <td>Project Fireball</td>
-                        <td class="d-none d-xl-table-cell">01/01/2023</td>
-                        <td class="d-none d-xl-table-cell">31/06/2023</td>
-                        <td><span class="badge bg-danger">Cancelled</span></td>
-                        <td class="d-none d-md-table-cell">William Harris</td>
-                    </tr>
-                    <tr>
-                        <td>Project Hades</td>
-                        <td class="d-none d-xl-table-cell">01/01/2023</td>
-                        <td class="d-none d-xl-table-cell">31/06/2023</td>
-                        <td><span class="badge bg-success">Done</span></td>
-                        <td class="d-none d-md-table-cell">Sharon Lessman</td>
-                    </tr>
-                    <tr>
-                        <td>Project Nitro</td>
-                        <td class="d-none d-xl-table-cell">01/01/2023</td>
-                        <td class="d-none d-xl-table-cell">31/06/2023</td>
-                        <td><span class="badge bg-warning">In progress</span></td>
-                        <td class="d-none d-md-table-cell">Vanessa Tucker</td>
-                    </tr>
-                    <tr>
-                        <td>Project Phoenix</td>
-                        <td class="d-none d-xl-table-cell">01/01/2023</td>
-                        <td class="d-none d-xl-table-cell">31/06/2023</td>
-                        <td><span class="badge bg-success">Done</span></td>
-                        <td class="d-none d-md-table-cell">William Harris</td>
-                    </tr>
-                    <tr>
-                        <td>Project X</td>
-                        <td class="d-none d-xl-table-cell">01/01/2023</td>
-                        <td class="d-none d-xl-table-cell">31/06/2023</td>
-                        <td><span class="badge bg-success">Done</span></td>
-                        <td class="d-none d-md-table-cell">Sharon Lessman</td>
-                    </tr>
-                    <tr>
-                        <td>Project Romeo</td>
-                        <td class="d-none d-xl-table-cell">01/01/2023</td>
-                        <td class="d-none d-xl-table-cell">31/06/2023</td>
-                        <td><span class="badge bg-success">Done</span></td>
-                        <td class="d-none d-md-table-cell">Christina Mason</td>
-                    </tr>
-                    <tr>
-                        <td>Project Wombat</td>
-                        <td class="d-none d-xl-table-cell">01/01/2023</td>
-                        <td class="d-none d-xl-table-cell">31/06/2023</td>
-                        <td><span class="badge bg-warning">In progress</span></td>
-                        <td class="d-none d-md-table-cell">William Harris</td>
-                    </tr>
+                    @php
+                        $no = 1;
+                    @endphp
+                    @foreach ($dataDiagnosis as $item)
+                        <?php $int = 0; ?>
+                        <?php $data_diagnosa = json_decode($item->data_diagnosa, true); ?>
+                        <?php foreach ($data_diagnosa as $val) {
+                            if (floatval($val['value']) > $int) {
+                                $diagnosa_dipilih['value'] = floatval($val['value']);
+                                $diagnosa_dipilih['kode_abk'] = App\Models\JenisAbk::where('kode_abk', $val['kode_abk'])->first();
+                                $int = floatval($val['value']);
+                            }
+                        } ?>
+                        <tr>
+                            <td>{{ $no++ }}</td>
+                            <td class="d-none d-xl-table-cell">{{ $item->diagnosa_id }}</td>
+                            <td class="d-none d-xl-table-cell"> {{ $diagnosa_dipilih['kode_abk']->kode_abk }} |
+                                {{ $diagnosa_dipilih['kode_abk']->nama_abk }}</td>
+                            <td class="d-none d-xl-table-cell">{{ $diagnosa_dipilih['value'] * 100 }} %</td>
+                            <td class="d-none d-xl-table-cell">
+                                <a class="btn btn-sm btn-primary"
+                                    href="{{ route('spk.result', ['diagnosa_id' => $item->diagnosa_id]) }}">Detail</a>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

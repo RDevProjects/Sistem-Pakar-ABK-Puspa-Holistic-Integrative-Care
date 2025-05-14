@@ -12,5 +12,10 @@ class Diagnosa extends Model
     protected $table = 'diagnosas';
 
     protected $guard = ["id"];
-    protected $fillable = ["diagnosa_id", "data_diagnosa", "kondisi"];
+    protected $fillable = ["diagnosa_id", "data_diagnosa", "kondisi", "user_id"];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

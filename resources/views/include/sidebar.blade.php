@@ -35,14 +35,14 @@
                 </a>
             </li>
 
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="pages-blank.html">
-                    <i class="align-middle" data-feather="book"></i> <span class="align-middle">Rules</span>
+            <li class="sidebar-item {{ Request::routeIs('form') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('form') }}">
+                    <i class="align-middle" data-feather="book"></i> <span class="align-middle">Form</span>
                 </a>
             </li>
 
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="pages-blank.html">
+            <li class="sidebar-item {{ Request::routeIs('diagnosis.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('diagnosis.index') }}">
                     <i class="align-middle" data-feather="check-circle"></i> <span class="align-middle">Diagnosis</span>
                 </a>
             </li>
