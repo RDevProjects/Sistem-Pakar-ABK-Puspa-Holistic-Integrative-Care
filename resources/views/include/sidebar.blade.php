@@ -42,7 +42,8 @@
                 </a>
             </li>
 
-            <li class="sidebar-item {{ Request::routeIs('diagnosis.index') ? 'active' : '' }}">
+            <li
+                class="sidebar-item {{ Request::routeIs('diagnosis.index') || Request::routeIs('spk.result') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('diagnosis.index') }}">
                     <i class="align-middle" data-feather="check-circle"></i> <span class="align-middle">Diagnosis</span>
                 </a>

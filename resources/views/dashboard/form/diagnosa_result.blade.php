@@ -189,9 +189,15 @@
 
             <!-- Tombol Aksi -->
             <div class="text-end">
-                <a href="/dashboard" class="btn btn-primary btn-lg">
-                    <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
-                </a>
+                @if (Auth::user()->role === 'admin')
+                    <a href="{{ route('dashboard.index') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
+                    </a>
+                @elseif (Auth::user()->role === 'user')
+                    <a href="{{ route('diagnosis.index') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-arrow-left"></i> Kembali ke Halaman Diagnosis
+                    </a>
+                @endif
             </div>
         @endif
     </div>
