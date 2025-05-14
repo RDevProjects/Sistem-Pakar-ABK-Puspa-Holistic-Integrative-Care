@@ -12,7 +12,7 @@ class Diagnosa extends Model
     protected $table = 'diagnosas';
 
     protected $guard = ["id"];
-    protected $fillable = ["diagnosa_id", "data_diagnosa", "kondisi", "user_id"];
+    protected $fillable = ["diagnosa_id", "data_diagnosa", "kondisi", "user_id", "diagnosa_dipilih"];
 
     public function user()
     {

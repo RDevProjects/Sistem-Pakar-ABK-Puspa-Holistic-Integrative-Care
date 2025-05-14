@@ -48,7 +48,9 @@ Route::prefix('/dashboard')->middleware('auth.role:admin')->group(function () {
         Route::put('/update/{id}', [JenisAbkController::class, 'update'])->name('jenis-abk.update');
         Route::delete('/destroy/{id}', [JenisAbkController::class, 'destroy'])->name('jenis-abk.destroy');
     });
+});
 
+Route::prefix('/dashboard')->middleware('auth.role:admin,user')->group(function () {
     Route::get('/form', function () {
         $data = [
             'gejala' => Gejala::all(),
@@ -59,9 +61,9 @@ Route::prefix('/dashboard')->middleware('auth.role:admin')->group(function () {
 
     Route::resource('/spk', DiagnosaController::class);
     Route::get('/spk/result/{diagnosa_id}', [DiagnosaController::class, 'diagnosaResult'])->name('spk.result');
-
     Route::get('/diagnosis', [DiagnosaController::class, 'index'])->name('diagnosis.index');
 });
+
 
 Route::prefix('/auth')->group(function () {
     Route::get('/login', [AuthController::class, 'index'])->name('login.index');

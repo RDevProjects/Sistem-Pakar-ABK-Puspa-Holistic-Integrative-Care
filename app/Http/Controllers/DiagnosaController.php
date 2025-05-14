@@ -15,7 +15,12 @@ class DiagnosaController extends Controller
      */
     public function index()
     {
-        $dataDiagnosis = Diagnosa::all();
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            $dataDiagnosis = Diagnosa::all();
+        } else {
+            $id_user = Auth::id();
+            $dataDiagnosis = Diagnosa::where('user_id', $id_user)->get();
+        }
 
         return view('dashboard.diagnosis.index', compact('dataDiagnosis'));
     }
@@ -33,177 +38,153 @@ class DiagnosaController extends Controller
      */
     public function store(Request $request)
     {
+        // Ambil data kondisi dari input pengguna
         $filteredArray = $request->post('kondisi');
         $kondisi = array_filter($filteredArray, function ($value) {
-            return $value !== null;
+            return $value !== null && $value !== "0"; // Hanya ambil gejala yang dipilih (nilai bukan 0)
         });
 
-        $kodeGejala = [];
-        $bobotPilihan = [];
-        foreach ($kondisi as $key => $val) {
-            if ($val != "#") {
-                array_push($kodeGejala, $key);
-                array_push($bobotPilihan, [$key, $val]);
-            }
+        // Jika tidak ada gejala yang dipilih, kembalikan error
+        if (empty($kondisi)) {
+            return redirect()->back()->withErrors(['msg' => 'Pilih setidaknya satu gejala untuk diagnosis.']);
         }
 
-        $jenisAbkList = JenisAbk::all(); // Ambil semua jenis ABK
+        // Simpan kode gejala dan bobot pengguna
+        $kodeGejala = array_keys($kondisi);
+        $bobotPilihan = [];
+        foreach ($kondisi as $key => $val) {
+            $bobotPilihan[$key] = floatval($val); // Konversi bobot ke float
+        }
+
+        // Ambil semua jenis ABK
+        $jenisAbkList = JenisAbk::all();
         $arrGejala = [];
 
+        // Proses perhitungan CF untuk setiap jenis ABK
         foreach ($jenisAbkList as $jenisAbk) {
-            $cfArr = [
-                "cf" => [],
-                "kode_abk" => []
-            ];
+            $cfArr = [];
 
+            // Ambil aturan yang sesuai dengan gejala yang dipilih dan jenis ABK
             $ruleSetiapAbk = Keputusan::whereIn("kode_gejala", $kodeGejala)
                 ->where("kode_abk", $jenisAbk->kode_abk)
                 ->get();
 
             if ($ruleSetiapAbk->isNotEmpty()) {
                 foreach ($ruleSetiapAbk as $rule) {
-                    $cf = $rule->mb - $rule->md;
-                    array_push($cfArr["cf"], $cf);
-                    array_push($cfArr["kode_abk"], $rule->kode_abk);
+                    // Hitung CF per aturan: CF_pakar * CF_user
+                    $cf_pakar = $rule->mb - $rule->md;
+                    $cf_user = $bobotPilihan[$rule->kode_gejala] ?? 0; // Fallback jika bobot tidak ada
+                    $cf_kombinasi = $cf_pakar * $cf_user;
+                    $cfArr[] = $cf_kombinasi;
                 }
 
-                $res = $this->getGabunganCf($cfArr);
-                array_push($arrGejala, $res);
+                // Gabungkan semua CF untuk jenis ABK ini
+                $cf_gabungan = $this->gabungkanCf($cfArr);
+                $arrGejala[] = [
+                    "value" => $cf_gabungan,
+                    "kode_abk" => $jenisAbk->kode_abk
+                ];
             }
         }
 
+        // Jika tidak ada hasil diagnosis, kembalikan error
+        if (empty($arrGejala)) {
+            return redirect()->back()->withErrors(['msg' => 'Tidak ada diagnosis yang sesuai dengan gejala yang dipilih.']);
+        }
+
+        // Pilih diagnosis dengan CF tertinggi
+        $diagnosa_dipilih = collect($arrGejala)->sortByDesc('value')->first();
+
+        // Simpan ke database
         $diagnosa_id = uniqid();
         $ins = Diagnosa::create([
             'diagnosa_id' => $diagnosa_id,
             'data_diagnosa' => json_encode($arrGejala),
             'kondisi' => json_encode($bobotPilihan),
-            'user_id' => Auth::id()
+            'user_id' => Auth::id(),
+            'diagnosa_dipilih' => json_encode($diagnosa_dipilih)
         ]);
 
         return redirect()->route('spk.result', ["diagnosa_id" => $diagnosa_id]);
     }
 
-
-    public function getGabunganCf($cfArr)
+    private function gabungkanCf($cfArr)
     {
-        if (empty($cfArr["cf"])) {
+        if (empty($cfArr)) {
             return 0;
         }
 
-        if (count($cfArr["cf"]) == 1) {
-            return [
-                "value" => strval($cfArr["cf"][0]),
-                "kode_abk" => $cfArr["kode_abk"][0]
-            ];
+        $cf_gabungan = $cfArr[0];
+        for ($i = 1; $i < count($cfArr); $i++) {
+            if ($cf_gabungan >= 0 && $cfArr[$i] >= 0) {
+                $cf_gabungan = $cf_gabungan + $cfArr[$i] * (1 - $cf_gabungan);
+            } elseif ($cf_gabungan < 0 && $cfArr[$i] < 0) {
+                $cf_gabungan = $cf_gabungan + $cfArr[$i] * (1 + $cf_gabungan);
+            } else {
+                $cf_gabungan = ($cf_gabungan + $cfArr[$i]) / (1 - min(abs($cf_gabungan), abs($cfArr[$i])));
+            }
         }
-
-        $cfoldGabungan = $cfArr["cf"][0];
-
-        for ($i = 1; $i < count($cfArr["cf"]); $i++) {
-            $cfoldGabungan = $cfoldGabungan + ($cfArr["cf"][$i] * (1 - $cfoldGabungan));
-        }
-
-        return [
-            "value" => "$cfoldGabungan",
-            "kode_abk" => $cfArr["kode_abk"][0]
-        ];
+        return $cf_gabungan;
     }
-
 
     public function diagnosaResult($diagnosa_id)
     {
+        // Ambil data diagnosis dari database
         $diagnosa = Diagnosa::where('diagnosa_id', $diagnosa_id)->first();
-        $gejala = json_decode($diagnosa->kondisi, true);
-        $data_diagnosa = json_decode($diagnosa->data_diagnosa, true);
-
-        $nilaiTertinggi = 0.0;
-        $diagnosa_dipilih = [];
-
-        foreach ($data_diagnosa as $val) {
-            if (floatval($val["value"]) > $nilaiTertinggi) {
-                $diagnosa_dipilih["value"] = floatval($val["value"]);
-                $diagnosa_dipilih["kode_abk"] = JenisAbk::where("kode_abk", $val["kode_abk"])->first();
-                $nilaiTertinggi = floatval($val["value"]);
-            }
+        // return response()->json($diagnosa);
+        // Jika diagnosis tidak ditemukan, kembalikan error
+        if (!$diagnosa) {
+            return redirect()->route('dashboard')->withErrors(['msg' => 'Diagnosis tidak ditemukan.']);
         }
 
-        $kodeGejala = array_column($gejala, 0);
-        $kode_abk = $diagnosa_dipilih["kode_abk"]->kode_abk;
+        $gejala = json_decode($diagnosa->kondisi, true) ?? [];
+        $data_diagnosa = json_decode($diagnosa->data_diagnosa, true) ?? [];
+        $diagnosa_dipilih = json_decode($diagnosa->diagnosa_dipilih, true);
 
-        $pakar = Keputusan::whereIn("kode_gejala", $kodeGejala)
-            ->where("kode_abk", $kode_abk)
+        // Jika tidak ada diagnosis yang dipilih, tampilkan pesan di view
+        if (empty($diagnosa_dipilih)) {
+            return view('dashboard.form.diagnosa_result', [
+                'diagnosa' => $diagnosa,
+                'diagnosa_dipilih' => null,
+                'gejala' => $gejala,
+                'data_diagnosa' => $data_diagnosa,
+                'pakar' => [],
+                'gejala_by_user' => [],
+                'artikel' => null,
+                'error_message' => 'Tidak ada diagnosis yang sesuai dengan gejala yang dimasukkan.'
+            ]);
+        }
+
+        // Ambil detail jenis ABK yang dipilih
+        $diagnosa_dipilih['kode_abk'] = JenisAbk::where('kode_abk', $diagnosa_dipilih['kode_abk'])->first();
+
+        // Ambil data pakar untuk gejala yang dipilih
+        $kodeGejala = array_keys($gejala);
+        $pakar = Keputusan::whereIn('kode_gejala', $kodeGejala)
+            ->where('kode_abk', $diagnosa_dipilih['kode_abk']->kode_abk)
             ->get();
 
+        // Filter gejala yang dimasukkan pengguna
         $gejala_by_user = [];
         foreach ($pakar as $pakarItem) {
-            foreach ($gejala as $userInput) {
-                if ($userInput[0] == $pakarItem->kode_gejala) {
-                    $gejala_by_user[] = $userInput;
-                    break;
-                }
+            if (isset($gejala[$pakarItem->kode_gejala])) {
+                $gejala_by_user[] = [$pakarItem->kode_gejala, $gejala[$pakarItem->kode_gejala]];
             }
         }
 
-        $nilaiPakar = [];
-        foreach ($pakar as $key) {
-            $nilaiPakar[] = ($key->mb - $key->md);
-        }
-
-        $nilaiUser = [];
-        foreach ($gejala_by_user as $key) {
-            $nilaiUser[] = $key[1];
-        }
-
-        $cfKombinasi = $this->getCfCombinasi($nilaiPakar, $nilaiUser);
-        $hasil = $this->getGabunganCf($cfKombinasi);
-
-        // Artikel bisa disesuaikan jika ada modelnya
+        // Artikel (opsional, sesuaikan jika ada modelnya)
         $artikel = null;
 
-        // return response()->json([
-        //     "diagnosa" => $diagnosa,
-        //     "diagnosa_dipilih" => $diagnosa_dipilih,
-        //     "gejala" => $gejala,
-        //     "data_diagnosa" => $data_diagnosa,
-        //     "pakar" => $pakar,
-        //     "gejala_by_user" => $gejala_by_user,
-        //     "cf_kombinasi" => $cfKombinasi,
-        //     "hasil" => $hasil,
-        //     "artikel" => $artikel
-        // ]);
-
-
         return view('dashboard.form.diagnosa_result', [
-            "diagnosa" => $diagnosa,
-            "diagnosa_dipilih" => $diagnosa_dipilih,
-            "gejala" => $gejala,
-            "data_diagnosa" => $data_diagnosa,
-            "pakar" => $pakar,
-            "gejala_by_user" => $gejala_by_user,
-            "cf_kombinasi" => $cfKombinasi,
-            "hasil" => $hasil,
-            "artikel" => $artikel
+            'diagnosa' => $diagnosa,
+            'diagnosa_dipilih' => $diagnosa_dipilih,
+            'gejala' => $gejala,
+            'data_diagnosa' => $data_diagnosa,
+            'pakar' => $pakar,
+            'gejala_by_user' => $gejala_by_user,
+            'artikel' => $artikel,
+            'error_message' => null
         ]);
-    }
-
-
-    public function getCfCombinasi($pakar, $user)
-    {
-        $cfComb = [];
-
-        if (count($pakar) === count($user)) {
-            for ($i = 0; $i < count($pakar); $i++) {
-                $res = $pakar[$i] * $user[$i];
-                $cfComb[] = floatval($res);
-            }
-
-            return [
-                "cf" => $cfComb,
-                "kode_abk" => ["0"] // ini nanti akan diganti saat diproses kembali di getGabunganCf
-            ];
-        }
-
-        return "Data tidak valid";
     }
 
 

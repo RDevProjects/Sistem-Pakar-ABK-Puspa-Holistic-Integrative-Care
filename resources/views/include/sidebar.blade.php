@@ -9,31 +9,32 @@
                 Pages
             </li>
 
-            <li class="sidebar-item {{ Request::routeIs('dashboard.index') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('dashboard.index') }}">
-                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
-                </a>
-            </li>
+            @if (Auth::check() && Auth::user()->role === 'admin')
+                <li class="sidebar-item {{ Request::routeIs('dashboard.index') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('dashboard.index') }}">
+                        <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
+                    </a>
+                </li>
 
-            <li class="sidebar-item {{ Request::routeIs('user.index') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('user.index') }}">
-                    <i class="align-middle" data-feather="users"></i> <span class="align-middle">Data User</span>
-                </a>
-            </li>
+                <li class="sidebar-item {{ Request::routeIs('user.index') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('user.index') }}">
+                        <i class="align-middle" data-feather="users"></i> <span class="align-middle">Data User</span>
+                    </a>
+                </li>
 
-            <li class="sidebar-item {{ Request::routeIs('gejala.index') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('gejala.index') }}">
-                    <i class="align-middle" data-feather="book"></i> <span class="align-middle">Data
-                        Gejala</span>
-                </a>
-            </li>
+                <li class="sidebar-item {{ Request::routeIs('gejala.index') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('gejala.index') }}">
+                        <i class="align-middle" data-feather="book"></i> <span class="align-middle">Data Gejala</span>
+                    </a>
+                </li>
 
-            <li class="sidebar-item {{ Request::routeIs('jenis-abk.index') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('jenis-abk.index') }}">
-                    <i class="align-middle" data-feather="book"></i> <span class="align-middle">Penyakit & Kondisi
-                        ABK</span>
-                </a>
-            </li>
+                <li class="sidebar-item {{ Request::routeIs('jenis-abk.index') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('jenis-abk.index') }}">
+                        <i class="align-middle" data-feather="book"></i> <span class="align-middle">Penyakit & Kondisi
+                            ABK</span>
+                    </a>
+                </li>
+            @endif
 
             <li class="sidebar-item {{ Request::routeIs('form') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('form') }}">

@@ -83,6 +83,9 @@
                         <div class="text-center mb-3">
                             Don't have an account? <a href="{{ route('register') }}">Sign up</a>
                         </div>
+                        <div class="text-center mb-3">
+                            Kembali ke <a href="{{ route('home') }}">halaman utama</a>
+                        </div>
                     </div>
                 </div>
             </div>

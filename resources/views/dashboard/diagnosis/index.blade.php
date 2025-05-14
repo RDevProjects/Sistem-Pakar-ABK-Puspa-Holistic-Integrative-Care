@@ -45,33 +45,42 @@
                         </thead>
                         <tbody>
                             @php
+                                use App\Models\JenisAbk;
+
                                 $no = 1;
+                                $jenisAbkMap = JenisAbk::all()->keyBy('kode_abk');
                             @endphp
-                            @foreach ($dataDiagnosis as $item)
-                                <?php $int = 0; ?>
-                                <?php $data_diagnosa = json_decode($item->data_diagnosa, true); ?>
-                                <?php foreach ($data_diagnosa as $val) {
-                                    if (floatval($val['value']) > $int) {
-                                        $diagnosa_dipilih['value'] = floatval($val['value']);
-                                        $diagnosa_dipilih['kode_abk'] = App\Models\JenisAbk::where('kode_abk', $val['kode_abk'])->first();
-                                        $int = floatval($val['value']);
-                                    }
-                                } ?>
+
+                            @if ($dataDiagnosis->count() === 0)
                                 <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $item->diagnosa_id }}</td>
-                                    <td> {{ $diagnosa_dipilih['kode_abk']->kode_abk }} |
-                                        {{ $diagnosa_dipilih['kode_abk']->nama_abk }}</td>
-                                    <td>{{ $diagnosa_dipilih['value'] * 100 }} %</td>
-                                    <td>
-                                        <a class="btn btn-sm btn-primary"
-                                            href="{{ route('spk.result', ['diagnosa_id' => $item->diagnosa_id]) }}">Detail</a>
-                                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#deleteGejalaModal"
-                                            data-gejala-id="{{ $item->id }}">Delete</button>
-                                    </td>
+                                    <td colspan="5" class="text-center">Tidak ada data</td>
                                 </tr>
-                            @endforeach
+                            @else
+                                @foreach ($dataDiagnosis as $item)
+                                    @php
+                                        $data_diagnosa = json_decode($item->data_diagnosa, true);
+                                        $diagnosa_dipilih = collect($data_diagnosa)->sortByDesc('value')->first();
+                                        $kodeAbk = $jenisAbkMap[$diagnosa_dipilih['kode_abk']] ?? null;
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $no++ }}</td>
+                                        <td>{{ $item->diagnosa_id }}</td>
+                                        <td>
+                                            @if ($kodeAbk)
+                                                {{ $kodeAbk->kode_abk }} | {{ $kodeAbk->nama_abk }}
+                                            @else
+                                                <em>Data tidak ditemukan</em>
+                                            @endif
+                                        </td>
+                                        <td>{{ number_format($diagnosa_dipilih['value'] * 100, 2) }} %</td>
+                                        <td>
+                                            <a class="btn btn-sm btn-primary"
+                                                href="{{ route('spk.result', ['diagnosa_id' => $item->diagnosa_id]) }}">Detail</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+
                         </tbody>
                     </table>
                 </div>
@@ -79,7 +88,7 @@
         </div>
     </div>
 
-    <!-- Modal Delete Diagnosis -->
+    {{-- <!-- Modal Delete Diagnosis -->
     <div class="modal fade" id="deleteGejalaModal" tabindex="-1" aria-labelledby="deleteGejalaModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -102,7 +111,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 @push('scripts')
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -110,7 +119,7 @@
     <script>
         $('#userTable').DataTable();
     </script>
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             $('#deleteGejalaModal').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget);
@@ -121,5 +130,5 @@
                 modal.find('#deleteGejalaForm').attr('action', '/dashboard/gejala/destroy/' + gejalaId);
             });
         });
-    </script>
+    </script> --}}
 @endpush
