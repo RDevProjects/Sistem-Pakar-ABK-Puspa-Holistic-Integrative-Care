@@ -156,7 +156,20 @@ class DiagnosaController extends Controller
         // Artikel bisa disesuaikan jika ada modelnya
         $artikel = null;
 
-        return view('clients.cl_diagnosa_result', [
+        // return response()->json([
+        //     "diagnosa" => $diagnosa,
+        //     "diagnosa_dipilih" => $diagnosa_dipilih,
+        //     "gejala" => $gejala,
+        //     "data_diagnosa" => $data_diagnosa,
+        //     "pakar" => $pakar,
+        //     "gejala_by_user" => $gejala_by_user,
+        //     "cf_kombinasi" => $cfKombinasi,
+        //     "hasil" => $hasil,
+        //     "artikel" => $artikel
+        // ]);
+
+
+        return view('dashboard.form.diagnosa_result', [
             "diagnosa" => $diagnosa,
             "diagnosa_dipilih" => $diagnosa_dipilih,
             "gejala" => $gejala,

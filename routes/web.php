@@ -57,7 +57,6 @@ Route::prefix('/dashboard')->middleware('auth.role:admin')->group(function () {
         return view('dashboard.form.index', $data);
     });
 
-    // Route::post('/spk', [DiagnosaController::class, 'store'])->name('spk.store');
     Route::resource('/spk', DiagnosaController::class);
     Route::get('/spk/result/{diagnosa_id}', [DiagnosaController::class, 'diagnosaResult'])->name('spk.result');
 });
