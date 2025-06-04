@@ -12,7 +12,7 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
 
-    <title>Sign Up | {{ env('APP_NAME') }}</title>
+    <title>Register | {{ env('APP_NAME') }}</title>
 
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -26,9 +26,9 @@
                     <div class="d-table-cell align-middle">
 
                         <div class="text-center mt-4">
-                            <h1 class="h2">Get started</h1>
+                            <h1 class="h2">Halaman Pendaftaran</h1>
                             <p class="lead">
-                                Start creating the best possible user experience for you customers.
+                                Mulai dapatkan Prediksi dari sistem kami
                             </p>
                         </div>
 
@@ -50,24 +50,24 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         <div class="mb-3">
-                                            <label class="form-label">Full name</label>
+                                            <label class="form-label">Nama Lengkap</label>
                                             <input class="form-control form-control-lg" type="text" name="name"
-                                                placeholder="Enter your name" />
+                                                placeholder="Masukkan nama lengkap Anda" />
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Username</label>
                                             <input class="form-control form-control-lg" type="text" name="username"
-                                                placeholder="Enter your username" />
+                                                placeholder="Masukkan username Anda" />
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Email</label>
                                             <input class="form-control form-control-lg" type="email" name="email"
-                                                placeholder="Enter your email" />
+                                                placeholder="Masukkan email Anda" />
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Password</label>
                                             <input class="form-control form-control-lg" type="password" name="password"
-                                                placeholder="Enter password" />
+                                                placeholder="Masukkan password Anda" />
                                         </div>
                                         <div class="d-grid gap-2 mt-3">
                                             <button type="submit" class="btn btn-lg btn-primary">Sign up</button>
@@ -77,7 +77,7 @@
                             </div>
                         </div>
                         <div class="text-center mb-3">
-                            Already have account? <a href="{{ route('login.index') }}">Log In</a>
+                            Sudah memiliki akun? <a href="{{ route('login.index') }}">Log In</a>
                         </div>
                     </div>
                 </div>

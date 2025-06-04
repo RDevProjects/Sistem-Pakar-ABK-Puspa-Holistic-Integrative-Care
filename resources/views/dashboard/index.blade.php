@@ -7,7 +7,7 @@
     <div class="mb-4 d-flex justify-content-between align-items-center">
         <div>
             <h1 class="h3"><strong>Selamat Datang di {{ env('APP_NAME') }}</strong></h1>
-            <h3 class="h4">Sistem Prediksi yang Digunakan untuk Memprediksi Penjualan di project {{ env('APP_NAME') }}
+            <h3 class="h4">Sistem pakar analisa ABK yang digunakan untuk mendeteksi awal gejala pada anak.
             </h3>
         </div>
         <div>

@@ -35,7 +35,7 @@ class UserController extends Controller
         ]);
 
         User::create($request->all());
-        return redirect()->route('user.index')->with('success', 'User created successfully');
+        return redirect()->route('user.index')->with('success', 'Data Pengguna berhasil dibuat');
     }
 
     /**
@@ -86,13 +86,13 @@ class UserController extends Controller
             }
             $user->save();
 
-            return redirect()->route('user.index')->with('success', 'User updated successfully');
+            return redirect()->route('user.index')->with('success', 'Data Pengguna berhasil diperbarui');
         } catch (\Throwable $th) {
             dd($th);
-            return redirect()->route('user.index')->with('error', 'User failed to update');
+            return redirect()->route('user.index')->with('error', 'Data Pengguna gagal memperbarui');
         }
 
-        return redirect()->route('user.index')->with('success', 'User updated successfully');
+        return redirect()->route('user.index')->with('success', 'Data Pengguna berhasil diperbarui');
     }
 
     /**
@@ -105,9 +105,9 @@ class UserController extends Controller
                 \Storage::disk('public')->delete(str_replace('storage/', '', $user->photo_profile_path));
             }
             $user->delete();
-            return redirect()->route('user.index')->with('success', 'User deleted successfully');
+            return redirect()->route('user.index')->with('success', 'Data Pengguna berhasil dihapus');
         } catch (\Throwable $th) {
-            return redirect()->route('user.index')->with('error', 'User failed to delete');
+            return redirect()->route('user.index')->with('error', 'Data Pengguna gagal menghapus');
         }
     }
 }

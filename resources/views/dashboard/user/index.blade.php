@@ -235,14 +235,14 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            $('#deleteUserModal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget);
-                var userId = button.data('user-id');
+           $('[data-bs-target="#deleteUserModal"]').on('click', function () {
+                var userId = $(this).data('user-id');
 
-                var modal = $(this);
-                modal.find('#deleteUserId').val(userId);
-                $('#editUserForm').attr('action', '/dashboard/user/destroy/' +
-                    userId);
+                // Set ID user ke hidden input (optional)
+                $('#deleteUserId').val(userId);
+
+                // Set action form delete sesuai route
+                $('#deleteUserForm').attr('action', '/dashboard/user/destroy/' + userId);
             });
         });
     </script>

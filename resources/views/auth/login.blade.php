@@ -28,9 +28,9 @@
                     <div class="d-table-cell align-middle">
 
                         <div class="text-center mt-4">
-                            <h1 class="h2">Welcome back!</h1>
+                            <h1 class="h2">Selamat Datang</h1>
                             <p class="lead">
-                                Sign in to your account to continue
+                                Masuk ke akun Anda untuk melanjutkan
                             </p>
                         </div>
 
@@ -53,7 +53,7 @@
                                         <div class="mb-3">
                                             <label class="form-label">Username</label>
                                             <input class="form-control form-control-lg" type="text" name="username"
-                                                placeholder="Enter your username" />
+                                                placeholder="Masukkan username Anda" />
                                         </div>
                                         {{-- <div class="mb-3">
                                             <label class="form-label">Email</label>
@@ -63,25 +63,25 @@
                                         <div class="mb-3">
                                             <label class="form-label">Password</label>
                                             <input class="form-control form-control-lg" type="password" name="password"
-                                                placeholder="Enter your password" />
+                                                placeholder="Masukkan password Anda" />
                                         </div>
                                         <div>
                                             <div class="form-check align-items-center">
                                                 <input id="customControlInline" type="checkbox" class="form-check-input"
                                                     value="remember-me" name="remember-me" checked>
                                                 <label class="form-check-label text-small"
-                                                    for="customControlInline">Remember me</label>
+                                                    for="customControlInline">Ingatkan Saya</label>
                                             </div>
                                         </div>
                                         <div class="d-grid gap-2 mt-3">
-                                            <button type="submit" class="btn btn-lg btn-primary">Sign in</button>
+                                            <button type="submit" class="btn btn-lg btn-primary">Login</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
                         <div class="text-center mb-3">
-                            Don't have an account? <a href="{{ route('register') }}">Sign up</a>
+                            Tidak memiliki akun? <a href="{{ route('register') }}">Register</a>
                         </div>
                         <div class="text-center mb-3">
                             Kembali ke <a href="{{ route('home') }}">halaman utama</a>
