@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -77,7 +78,7 @@ class UserController extends Controller
             $user->role = $request->role;
             if ($request->hasFile('photo_profile')) {
                 if ($user->photo_profile_path) {
-                    \Storage::disk('public')->delete(str_replace('storage/', '', $user->photo_profile_path));
+                    Storage::disk('public')->delete(str_replace('storage/', '', $user->photo_profile_path));
                 }
                 $file = $request->file('photo_profile');
                 $filename = time() . '_' . $file->getClientOriginalName();
@@ -102,7 +103,7 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id);
             if ($user->photo_profile_path) {
-                \Storage::disk('public')->delete(str_replace('storage/', '', $user->photo_profile_path));
+                Storage::disk('public')->delete(str_replace('storage/', '', $user->photo_profile_path));
             }
             $user->delete();
             return redirect()->route('user.index')->with('success', 'Data Pengguna berhasil dihapus');
