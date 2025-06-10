@@ -14,28 +14,20 @@ class KondisiUser extends Model
     {
         $cf_user = [
             [
-                'kondisi' => 'Tidak Tahu',
+                'kondisi' => 'Tidak',
                 'nilai' => 0.0,
             ],
             [
-                'kondisi' => 'Kurang Yakin',
-                'nilai' => 0.2,
-            ],
-            [
                 'kondisi' => 'Mungkin',
-                'nilai' => 0.4,
+                'nilai' => 1.0,
             ],
             [
                 'kondisi' => 'Cukup Yakin',
-                'nilai' => 0.6,
+                'nilai' => 2.0,
             ],
             [
                 'kondisi' => 'Yakin',
-                'nilai' => 0.8,
-            ],
-            [
-                'kondisi' => 'Sangat Yakin',
-                'nilai' => 1.0,
+                'nilai' => 3.0,
             ],
         ];
         return $cf_user;
