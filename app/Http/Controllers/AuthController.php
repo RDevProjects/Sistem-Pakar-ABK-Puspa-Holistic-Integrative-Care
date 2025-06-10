@@ -23,7 +23,7 @@ class AuthController extends Controller
             if ($user->role == 'admin') {
                 return redirect()->route('dashboard.index');
             }
-            return redirect()->route('form');
+            return redirect()->route('observasi.create');
         }
 
         return redirect()->route('login.index')->with('error', 'Data tidak ada di database');

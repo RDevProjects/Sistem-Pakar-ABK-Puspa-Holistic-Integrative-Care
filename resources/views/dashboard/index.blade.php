@@ -47,7 +47,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="mt-0 col">
-                                    <h5 class="card-title">Data Gejala</h5>
+                                    <h5 class="card-title">Data Aturan</h5>
                                 </div>
 
                                 <div class="col-auto">
@@ -56,10 +56,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <h1 class="mt-1 mb-3">{{ $gejala }}</h1>
+                            <h1 class="mt-1 mb-3">{{ $aturan }}</h1>
                             <div class="mb-0">
                                 <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i>
-                                    {{ $gejala }}</span>
+                                    {{ $aturan }}</span>
                                 <span class="text-muted">Data yang ada didatabase</span>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="mt-0 col">
-                                    <h5 class="card-title">Data Penyakit & Kondisi ABK</h5>
+                                    <h5 class="card-title">Data Point Observasi</h5>
                                 </div>
 
                                 <div class="col-auto">
@@ -79,9 +79,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <h1 class="mt-1 mb-3">{{ $jenis_abk }}</h1>
+                            <h1 class="mt-1 mb-3">{{ $poin }}</h1>
                             <div class="mb-0">
-                                <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> {{ $jenis_abk }}
+                                <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i>{{ $poin }}
                                 </span>
                                 <span class="text-muted">Data yang ada didatabase</span>
                             </div>
@@ -91,7 +91,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="mt-0 col">
-                                    <h5 class="card-title">Data Diagnosis</h5>
+                                    <h5 class="card-title">Data Hasil Observasi</h5>
                                 </div>
 
                                 <div class="col-auto">
@@ -100,9 +100,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <h1 class="mt-1 mb-3">{{ $diagnosa }}</h1>
+                            <h1 class="mt-1 mb-3">{{ $hasil }}</h1>
                             <div class="mb-0">
-                                <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> {{ $diagnosa }}
+                                <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> {{ $hasil }}
                                 </span>
                                 <span class="text-muted">Data yang ada didatabase</span>
                             </div>
@@ -119,15 +119,16 @@
         <div class="card flex-fill">
             <div class="card-header">
 
-                <h5 class="mb-0 card-title">Data Diagnosa</h5>
+                <h5 class="mb-0 card-title">Data Obeservasi</h5>
             </div>
             <table class="table my-0 table-hover">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th class="d-none d-xl-table-cell">Diagnosa ID</th>
-                        <th class="d-none d-xl-table-cell">Tingkat Depresi</th>
-                        <th class="d-none d-xl-table-cell">Persentase</th>
+                        <th class="d-none d-xl-table-cell">ID Observasi</th>
+                        <th class="d-none d-xl-table-cell">Total Skor Observasi</th>
+                        <th class="d-none d-xl-table-cell">Kategori</th>
+                        <th class="d-none d-xl-table-cell">Rekomendasi</th>
                         <th class="d-none d-xl-table-cell">Actions</th>
                     </tr>
                 </thead>
@@ -135,25 +136,16 @@
                     @php
                         $no = 1;
                     @endphp
-                    @foreach ($dataDiagnosis as $item)
-                        <?php $int = 0; ?>
-                        <?php $data_diagnosa = json_decode($item->data_diagnosa, true); ?>
-                        <?php foreach ($data_diagnosa as $val) {
-                            if (floatval($val['value']) > $int) {
-                                $diagnosa_dipilih['value'] = floatval($val['value']);
-                                $diagnosa_dipilih['kode_abk'] = App\Models\JenisAbk::where('kode_abk', $val['kode_abk'])->first();
-                                $int = floatval($val['value']);
-                            }
-                        } ?>
+                    @foreach ($dataHasil as $item)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td class="d-none d-xl-table-cell">{{ $item->diagnosa_id }}</td>
-                            <td class="d-none d-xl-table-cell"> {{ $diagnosa_dipilih['kode_abk']->kode_abk }} |
-                                {{ $diagnosa_dipilih['kode_abk']->nama_abk }}</td>
-                            <td class="d-none d-xl-table-cell">{{ $diagnosa_dipilih['value'] * 100 }} %</td>
+                            <td class="d-none d-xl-table-cell">{{ $item->id_observasi }}</td>
+                            <td class="d-none d-xl-table-cell">{{ $item->total_skor }} Skor</td>
+                            <td class="d-none d-xl-table-cell">{{ $item->kategori }}</td>
+                            <td class="d-none d-xl-table-cell">{{ $item->rekomendasi }}</td>
                             <td class="d-none d-xl-table-cell">
                                 <a class="btn btn-sm btn-primary"
-                                    href="{{ route('spk.result', ['diagnosa_id' => $item->diagnosa_id]) }}">Detail</a>
+                                    href="{{ route('observasi.result', $item->id_observasi) }}">Detail</a>
                             </td>
                         </tr>
                     @endforeach

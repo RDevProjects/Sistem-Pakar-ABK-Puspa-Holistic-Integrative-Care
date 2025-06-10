@@ -2,12 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DiagnosaController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\GejalaController;
-use App\Http\Controllers\JenisAbkController;
+use App\Http\Controllers\AturanController;
+use App\Http\Controllers\PoinObservasiController;
 use App\Http\Controllers\ObservasiController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Middleware\AuthAndRoleMiddleware;
 use App\Models\KondisiUser;
 use App\Models\Gejala;
@@ -19,36 +17,27 @@ Route::get('/', function () {
 })->name('home');
 
 Route::prefix('/dashboard')->middleware('auth.role:admin')->group(function () {
-    // Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
-    // Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
-    // Route::put('/profile/update', [AuthController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
+    Route::put('/profile/update', [AuthController::class, 'updateProfile'])->name('profile.update');
 
-    // Route::prefix('/user')->group(function () {
-    //     Route::get('/', [UserController::class, 'index'])->name('user.index');
-    //     Route::post('/store', [UserController::class, 'store'])->name('user.store');
-    //     Route::get('/show/{id}', [UserController::class, 'show'])->name('user.show');
-    //     Route::get('/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
-    //     Route::put('/update/{id}', [UserController::class, 'update'])->name('user.update');
-    //     Route::delete('/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
-    // });
+    Route::prefix('aturan')->group(function () {
+        Route::get('/', [AturanController::class, 'index'])->name('aturan.index');
+        Route::get('/create', [AturanController::class, 'create'])->name('aturan.create');
+        Route::post('/', [AturanController::class, 'store'])->name('aturan.store');
+        Route::get('/{id}/edit', [AturanController::class, 'edit'])->name('aturan.edit');
+        Route::put('/{id}', [AturanController::class, 'update'])->name('aturan.update');
+        Route::delete('/{id}', [AturanController::class, 'destroy'])->name('aturan.destroy');
+    });
 
-    // Route::prefix('/gejala')->group(function () {
-    //     Route::get('/', [GejalaController::class, 'index'])->name('gejala.index');
-    //     Route::post('/store', [GejalaController::class, 'store'])->name('gejala.store');
-    //     Route::get('/show/{id}', [GejalaController::class, 'show'])->name('gejala.show');
-    //     Route::get('/edit/{id}', [GejalaController::class, 'edit'])->name('gejala.edit');
-    //     Route::put('/update/{id}', [GejalaController::class, 'update'])->name('gejala.update');
-    //     Route::delete('/destroy/{id}', [GejalaController::class, 'destroy'])->name('gejala.destroy');
-    // });
-
-    // Route::prefix('/jenis-abk')->group(function () {
-    //     Route::get('/', [JenisAbkController::class, 'index'])->name('jenis-abk.index');
-    //     Route::post('/store', [JenisAbkController::class, 'store'])->name('jenis-abk.store');
-    //     Route::get('/show/{id}', [JenisAbkController::class, 'show'])->name('jenis-abk.show');
-    //     Route::get('/edit/{id}', [JenisAbkController::class, 'edit'])->name('jenis-abk.edit');
-    //     Route::put('/update/{id}', [JenisAbkController::class, 'update'])->name('jenis-abk.update');
-    //     Route::delete('/destroy/{id}', [JenisAbkController::class, 'destroy'])->name('jenis-abk.destroy');
-    // });
+    Route::prefix('poin-observasi')->group(function () {
+        Route::get('/', [PoinObservasiController::class, 'index'])->name('poin_observasi.index');
+        Route::get('/create', [PoinObservasiController::class, 'create'])->name('poin_observasi.create');
+        Route::post('/', [PoinObservasiController::class, 'store'])->name('poin_observasi.store');
+        Route::get('/{id}/edit', [PoinObservasiController::class, 'edit'])->name('poin_observasi.edit');
+        Route::put('/{id}', [PoinObservasiController::class, 'update'])->name('poin_observasi.update');
+        Route::delete('/{id}', [PoinObservasiController::class, 'destroy'])->name('poin_observasi.destroy');
+    });
 });
 
 Route::prefix('/dashboard')->middleware('auth.role:admin,user')->group(function () {

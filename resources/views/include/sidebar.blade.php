@@ -16,36 +16,26 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item {{ Request::routeIs('user.index') ? 'active' : '' }}">
-                    <a class="sidebar-link" href="{{ route('user.index') }}">
-                        <i class="align-middle" data-feather="users"></i> <span class="align-middle">Data User</span>
+                <li
+                    class="sidebar-item {{ Request::routeIs('aturan.index') || Request::routeIs('aturan.create') || Request::routeIs('aturan.edit') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('aturan.index') }}">
+                        <i class="align-middle" data-feather="list"></i> <span class="align-middle">Data Aturan</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item {{ Request::routeIs('gejala.index') ? 'active' : '' }}">
-                    <a class="sidebar-link" href="{{ route('gejala.index') }}">
-                        <i class="align-middle" data-feather="book"></i> <span class="align-middle">Data Gejala</span>
-                    </a>
-                </li>
-
-                <li class="sidebar-item {{ Request::routeIs('jenis-abk.index') ? 'active' : '' }}">
-                    <a class="sidebar-link" href="{{ route('jenis-abk.index') }}">
-                        <i class="align-middle" data-feather="book"></i> <span class="align-middle">Penyakit & Kondisi
-                            ABK</span>
+                <li
+                    class="sidebar-item {{ Request::routeIs('poin_observasi.index') || Request::routeIs('poin_observasi.create') || Request::routeIs('poin_observasi.edit') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('poin_observasi.index') }}">
+                        <i class="align-middle" data-feather="check-square"></i> <span class="align-middle">Data Poin
+                            Observasi</span>
                     </a>
                 </li>
             @endif
 
-            <li class="sidebar-item {{ Request::routeIs('form') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('form') }}">
-                    <i class="align-middle" data-feather="book"></i> <span class="align-middle">Form</span>
-                </a>
-            </li>
-
             <li
-                class="sidebar-item {{ Request::routeIs('diagnosis.index') || Request::routeIs('spk.result') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ route('diagnosis.index') }}">
-                    <i class="align-middle" data-feather="check-circle"></i> <span class="align-middle">Diagnosis</span>
+                class="sidebar-item {{ Request::routeIs('observasi.create') || Request::routeIs('observasi.result') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('observasi.create') }}">
+                    <i class="align-middle" data-feather="edit-3"></i> <span class="align-middle">Form Observasi</span>
                 </a>
             </li>
         </ul>
