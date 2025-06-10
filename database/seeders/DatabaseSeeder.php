@@ -35,14 +35,9 @@ class DatabaseSeeder extends Seeder
             'role' => 'user',
         ]);
 
-        $keputusan = new Keputusan();
-        $gejala = new Gejala();
-        $jenis_abk = new JenisAbk();
-        $kondisi = new KondisiUser();
-
-        Keputusan::insert($keputusan->fillTable());
-        Gejala::insert($gejala->fillTable());
-        JenisAbk::insert($jenis_abk->fillTable());
-        KondisiUser::insert($kondisi->fillTable());
+        $this->call([
+            PoinObservasiSeeder::class,
+            AturanSeeder::class,
+        ]);
     }
 }
