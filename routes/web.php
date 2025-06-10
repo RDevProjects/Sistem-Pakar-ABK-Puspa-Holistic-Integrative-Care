@@ -63,9 +63,9 @@ Route::prefix('/dashboard')->middleware('auth.role:admin,user')->group(function 
     // Route::resource('/spk', DiagnosaController::class);
     // Route::get('/spk/result/{diagnosa_id}', [DiagnosaController::class, 'diagnosaResult'])->name('spk.result');
     // Route::get('/diagnosis', [DiagnosaController::class, 'index'])->name('diagnosis.index');
-    Route::get('/observasi/create', [ObservasiController::class, 'create'])->name('observasi.create');
+    Route::get('/observasi', [ObservasiController::class, 'create'])->name('observasi.create');
     Route::post('/observasi/store', [ObservasiController::class, 'store'])->name('observasi.store');
-    Route::get('/observasi/result/{id}', [ObservasiController::class, 'result'])->name('observasi.result');
+    Route::get('/observasi/data/{id}', [ObservasiController::class, 'result'])->name('observasi.result');
 });
 
 
