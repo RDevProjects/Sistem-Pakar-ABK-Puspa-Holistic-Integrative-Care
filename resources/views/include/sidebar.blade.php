@@ -38,6 +38,13 @@
                     <i class="align-middle" data-feather="edit-3"></i> <span class="align-middle">Form Observasi</span>
                 </a>
             </li>
+
+            <li
+                class="sidebar-item {{ Request::routeIs('observasi.user.index') || Request::routeIs('observasi.admin.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ Auth::user()->role == 'admin' ? route('observasi.admin.index') : route('observasi.user.index') }}">
+                    <i class="align-middle" data-feather="list"></i> <span class="align-middle">Riwayat Observasi</span>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

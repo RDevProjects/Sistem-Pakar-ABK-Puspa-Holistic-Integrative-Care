@@ -21,9 +21,9 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             if ($user->role == 'admin') {
-                return redirect()->route('dashboard.index');
+                return redirect()->route('observasi.admin.index');
             }
-            return redirect()->route('observasi.create');
+            return redirect()->route('observasi.user.index');
         }
 
         return redirect()->route('login.index')->with('error', 'Data tidak ada di database');

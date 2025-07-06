@@ -11,7 +11,7 @@
     <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
         <img src="{{ asset('assets/logo-puspa.webp') }}" alt="Logo Puspa HIC" class="w-auto h-16">
         <div class="my-6 text-center">
-            <h1 class="text-2xl font-bold">Form Observasi (Usia 2-5 Tahun)</h1>
+            <h1 class="text-2xl font-bold">Form Observasi (Usia dalam bulan)</h1>
             {{ \Carbon\Carbon::parse(now())->translatedFormat('d F Y, H:i') }} WIB
         </div>
 
@@ -37,7 +37,7 @@
                 <div>
                     <label class="block text-gray-700">Usia</label>
                     <input type="number" name="usia" value="{{ old('usia') }}" class="w-full p-2 border rounded"
-                        min="2" max="5" required placeholder="Masukkan usia anak (2-5 tahun)">
+                        min="1" max="100" required placeholder="Masukkan usia anak (bulan)">
                 </div>
                 <div>
                     <label class="block text-gray-700">Tanggal Observasi</label>

@@ -8,7 +8,7 @@ class Observasi extends Model
 {
     protected $table = 'observasi';
     protected $primaryKey = 'id_observasi';
-    protected $fillable = ['nama_anak', 'usia', 'tanggal', 'koordinator', 'observer'];
+    protected $fillable = ['nama_anak', 'usia', 'tanggal', 'koordinator', 'observer', 'user_id'];
 
     public function jawaban()
     {
@@ -18,5 +18,10 @@ class Observasi extends Model
     public function hasil()
     {
         return $this->hasMany(HasilObservasi::class, 'id_observasi');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

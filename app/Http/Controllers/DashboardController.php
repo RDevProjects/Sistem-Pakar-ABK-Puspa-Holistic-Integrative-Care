@@ -15,7 +15,7 @@ class DashboardController extends Controller
         $aturan = Aturan::count();
         $poin = PoinObservasi::count();
         $hasil = HasilObservasi::count();
-        $dataHasil = HasilObservasi::all();
+        $dataHasil = HasilObservasi::orderBy('created_at', 'desc')->limit(5)->get();
 
         $users = User::where('role', 'user')->Count();
         return view('dashboard.index', compact('aturan', 'poin', 'hasil', 'dataHasil', 'users'));

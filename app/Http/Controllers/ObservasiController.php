@@ -9,6 +9,8 @@ use App\Models\Aturan;
 use App\Models\HasilObservasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\PDF;
+use Illuminate\Support\Facades\Auth;
 
 class ObservasiController extends Controller
 {
@@ -25,7 +27,7 @@ class ObservasiController extends Controller
         // Validate input
         $request->validate([
             'nama_anak' => 'required|string|max:100',
-            'usia' => 'required|integer|between:2,5',
+            'usia' => 'required|integer|between:1,100',
             'tanggal' => 'required|date',
             'koordinator' => 'required|string|max:100',
             'observer' => 'required|string|max:100',
@@ -48,6 +50,7 @@ class ObservasiController extends Controller
                 'tanggal' => $request->tanggal,
                 'koordinator' => $request->koordinator,
                 'observer' => $request->observer,
+                'user_id' => Auth::id(),
             ]);
 
             // 2. Process answers and calculate CF
@@ -121,5 +124,42 @@ class ObservasiController extends Controller
     {
         $observasi = Observasi::with('jawaban.poin', 'hasil')->findOrFail($id);
         return view('dashboard.observasi.result', compact('observasi'));
+    }
+
+    // Download PDF
+    public function download($id, PDF $pdf)
+    {
+        $observasi = Observasi::with('jawaban.poin', 'hasil')->findOrFail($id);
+        $pdf = $pdf->loadView('dashboard.observasi.pdf', compact('observasi'));
+        return $pdf->download('hasil-observasi-' . $observasi->nama_anak . '-' . date('Y-m-d') . '.pdf');
+    }
+
+    // Daftar observasi milik user (riwayat)
+    public function userIndex()
+    {
+        $observasi = Observasi::with('hasil')
+            ->where('user_id', Auth::id())
+            ->orderByDesc('created_at')
+            ->get();
+        return view('dashboard.observasi.user_index', compact('observasi'));
+    }
+
+    // Daftar semua observasi (admin)
+    public function adminIndex()
+    {
+        $observasi = Observasi::with('user', 'hasil')
+            ->orderByDesc('created_at')
+            ->get();
+        return view('dashboard.observasi.admin_index', compact('observasi'));
+    }
+
+    // Hapus observasi (admin)
+    public function destroy($id)
+    {
+        $observasi = Observasi::findOrFail($id);
+        $observasi->jawaban()->delete();
+        $observasi->hasil()->delete();
+        $observasi->delete();
+        return redirect()->route('observasi.admin.index')->with('success', 'Data observasi berhasil dihapus.');
     }
 }

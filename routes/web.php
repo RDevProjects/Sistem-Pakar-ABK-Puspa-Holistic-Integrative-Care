@@ -55,8 +55,16 @@ Route::prefix('/dashboard')->middleware('auth.role:admin,user')->group(function 
     Route::get('/observasi', [ObservasiController::class, 'create'])->name('observasi.create');
     Route::post('/observasi/store', [ObservasiController::class, 'store'])->name('observasi.store');
     Route::get('/observasi/data/{id}', [ObservasiController::class, 'result'])->name('observasi.result');
+    Route::get('/observasi/download/{id}', [ObservasiController::class, 'download'])->name('observasi.download');
+    // User dashboard: riwayat observasi milik user
+    Route::get('/observasi/riwayat', [ObservasiController::class, 'userIndex'])->name('observasi.user.index');
 });
 
+Route::prefix('/dashboard')->middleware('auth.role:admin')->group(function () {
+    // Admin dashboard: semua observasi
+    Route::get('/observasi/admin', [ObservasiController::class, 'adminIndex'])->name('observasi.admin.index');
+    Route::delete('/observasi/{id}', [ObservasiController::class, 'destroy'])->name('observasi.destroy');
+});
 
 Route::prefix('/auth')->group(function () {
     Route::get('/login', [AuthController::class, 'index'])->name('login.index');
