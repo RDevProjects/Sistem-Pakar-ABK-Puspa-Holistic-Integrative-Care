@@ -1,6 +1,6 @@
 <nav id="sidebar" class="sidebar js-sidebar">
     <div class="sidebar-content js-simplebar">
-        <a class="sidebar-brand" href="{{ route('dashboard.index') }}">
+        <a class="sidebar-brand" href="javascript:void(0);" onclick="window.history.back();">
             <span class="align-middle">{{ env('APP_NAME') }}</span>
         </a>
 
@@ -41,7 +41,8 @@
 
             <li
                 class="sidebar-item {{ Request::routeIs('observasi.user.index') || Request::routeIs('observasi.admin.index') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{ Auth::user()->role == 'admin' ? route('observasi.admin.index') : route('observasi.user.index') }}">
+                <a class="sidebar-link"
+                    href="{{ Auth::user()->role == 'admin' ? route('observasi.admin.index') : route('observasi.user.index') }}">
                     <i class="align-middle" data-feather="list"></i> <span class="align-middle">Riwayat Observasi</span>
                 </a>
             </li>

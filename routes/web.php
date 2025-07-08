@@ -18,8 +18,7 @@ Route::get('/', function () {
 
 Route::prefix('/dashboard')->middleware('auth.role:admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
-    Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
-    Route::put('/profile/update', [AuthController::class, 'updateProfile'])->name('profile.update');
+
 
     Route::prefix('aturan')->group(function () {
         Route::get('/', [AturanController::class, 'index'])->name('aturan.index');
@@ -52,6 +51,8 @@ Route::prefix('/dashboard')->middleware('auth.role:admin,user')->group(function 
     // Route::resource('/spk', DiagnosaController::class);
     // Route::get('/spk/result/{diagnosa_id}', [DiagnosaController::class, 'diagnosaResult'])->name('spk.result');
     // Route::get('/diagnosis', [DiagnosaController::class, 'index'])->name('diagnosis.index');
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
+    Route::put('/profile/update', [AuthController::class, 'updateProfile'])->name('profile.update');
     Route::get('/observasi', [ObservasiController::class, 'create'])->name('observasi.create');
     Route::post('/observasi/store', [ObservasiController::class, 'store'])->name('observasi.store');
     Route::get('/observasi/data/{id}', [ObservasiController::class, 'result'])->name('observasi.result');

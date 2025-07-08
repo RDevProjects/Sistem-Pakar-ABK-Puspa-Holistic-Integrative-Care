@@ -27,7 +27,7 @@ class User extends Authenticatable
     ];
 
     protected $attributes = [
-        'photo_profile_path' => 'https://static-00.iconduck.com/assets.00/avatar-default-icon-1024x1024-dvpl2mz1.png',
+        'photo_profile_path' => '',
     ];
     /**
      * The attributes that should be hidden for serialization.
